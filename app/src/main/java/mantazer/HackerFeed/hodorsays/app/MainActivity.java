@@ -1,8 +1,10 @@
 package mantazer.HackerFeed.hodorsays.app;
 
 import android.app.Activity;
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
-import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,23 +13,31 @@ import java.lang.Math;
 
 public class MainActivity extends Activity {
 
-    MediaPlayer myPlayer;
+    int[] hodorSounds = {R.raw.hodor1, R.raw.hodor2, R.raw.hodor3, R.raw.hodor4, R.raw.hodor5,
+                         R.raw.hodor6, R.raw.hodor7, R.raw.hodor8};
+
+    int NUM_SOUNDS = hodorSounds.length;
+
+    int[] hodorSoundIDs = new int[NUM_SOUNDS];
+
+    AudioManager hodorManager;
+    SoundPool hodorPool;
     Button hodorButton;
 
-    String[] mp3Names = {"hodor1", "hodor2", "hodor3", "hodor4", "hodor5", "hodor6", "hodor7",
-                            "hodor8"};
-
-    int NUM_SOUNDS = 8;
-
-    int[] resIDArray = new int[NUM_SOUNDS];
+    float currentVolume;
+    float maxVolume;
+    float volume;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-        for (int i = 0; i < mp3Names.length; i++) {
-            resIDArray[i] = getResources().getIdentifier(mp3Names[i], "raw", getPackageName());
+        hodorPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+
+        for (int i = 0; i < hodorSounds.length; i++) {
+            hodorSoundIDs[i] = hodorPool.load(this, hodorSounds[i], 1);
         }
 
         hodorButton = (Button) findViewById(R.id.hodorButton);
@@ -35,25 +45,20 @@ public class MainActivity extends Activity {
         hodorButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int randomID = (int) (Math.random() * NUM_SOUNDS);
-                myPlayer = MediaPlayer.create(MainActivity.this, resIDArray[randomID]);
-                myPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                    @Override
-                    public void onPrepared(MediaPlayer mediaPlayer) {
-                        myPlayer.start();
-                    }
-                });
-
-//                myPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//                    @Override
-//                    public void onCompletion(MediaPlayer mediaPlayer) {
-//                        myPlayer.reset();
-//                        myPlayer.release();
-//                    }
-//                });
-
+                sayHodor();
             }
         });
 
     }
+
+    public void sayHodor() {
+        hodorManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        currentVolume = hodorManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        maxVolume = hodorManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        volume = currentVolume / maxVolume;
+
+        int randomIndex = (int) (Math.random() * NUM_SOUNDS);
+        hodorPool.play(hodorSoundIDs[randomIndex], volume, volume, 1, 0, 1f);
+    }
+
 }
