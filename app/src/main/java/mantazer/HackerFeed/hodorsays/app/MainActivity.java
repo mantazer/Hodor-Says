@@ -2,6 +2,7 @@ package mantazer.HackerFeed.hodorsays.app;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -43,6 +44,10 @@ public class MainActivity extends Activity {
         }
 
         hodorButton = (Button) findViewById(R.id.hodorButton);
+
+        Typeface gotFace = Typeface.createFromAsset(getAssets(), "Game of Thrones.ttf");
+        hodorButton.setTypeface(gotFace);
+
         hodorImage = (ImageView) findViewById(R.id.hodorImage);
 
         hodorButton.setOnTouchListener(new View.OnTouchListener() {
@@ -50,9 +55,11 @@ public class MainActivity extends Activity {
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    view.setPressed(false);
                     hodorImage.setImageResource(R.drawable.hodorface);
                     return true;
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    view.setPressed(true);
                     hodorImage.setImageResource(R.drawable.hodorfaceopen);
                     sayHodor();
                     return true;
