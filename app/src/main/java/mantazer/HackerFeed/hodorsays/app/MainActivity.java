@@ -5,9 +5,10 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.lang.Math;
 
@@ -23,6 +24,7 @@ public class MainActivity extends Activity {
     AudioManager hodorManager;
     SoundPool hodorPool;
     Button hodorButton;
+    ImageView hodorImage;
 
     float currentVolume;
     float maxVolume;
@@ -41,11 +43,22 @@ public class MainActivity extends Activity {
         }
 
         hodorButton = (Button) findViewById(R.id.hodorButton);
+        hodorImage = (ImageView) findViewById(R.id.hodorImage);
 
-        hodorButton.setOnClickListener(new View.OnClickListener() {
+        hodorButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                sayHodor();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    hodorImage.setImageResource(R.drawable.hodorface);
+                    return true;
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    hodorImage.setImageResource(R.drawable.hodorfaceopen);
+                    sayHodor();
+                    return true;
+                }
+
+                return false;
             }
         });
 

@@ -16,12 +16,13 @@
         android:layout_height="60dp"
         android:background="@drawable/button_style"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="10dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/hodorImage"
         android:src="@drawable/hodorface"
         android:scaleType="center"
         android:layout_centerVertical="true"
