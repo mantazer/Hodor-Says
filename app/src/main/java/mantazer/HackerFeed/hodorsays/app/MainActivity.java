@@ -56,11 +56,11 @@ public class MainActivity extends Activity {
 
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     view.setPressed(false);
-                    hodorImage.setImageResource(R.drawable.hodorface);
+                    hodorImage.setImageResource(R.drawable.kinghodor);
                     return true;
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     view.setPressed(true);
-                    hodorImage.setImageResource(R.drawable.hodorfaceopen);
+                    hodorImage.setImageResource(R.drawable.kinghodoropen);
                     sayHodor();
                     return true;
                 }
