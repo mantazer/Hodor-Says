@@ -43,7 +43,6 @@ public class MainActivity extends Activity {
                         myPlayer.start();
                     }
                 });
-                
 
 //                myPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 //                    @Override
@@ -52,6 +51,7 @@ public class MainActivity extends Activity {
 //                        myPlayer.release();
 //                    }
 //                });
+
             }
         });
 
